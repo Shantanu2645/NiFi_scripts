@@ -28,6 +28,7 @@ class PyInputStreamCallback(InputStreamCallback):
  
 flowFile = session.get()
 
+
 class PyOutputStreamCallback(OutputStreamCallback):
     def __init__(self, data):
         self.data = data
@@ -82,7 +83,7 @@ def process_data(email):
                         "passport_no": p_info.split('/')[2],
                         "ticket_no": i.split("\n")[-1].split(" ")[-6], 
                         "is_archived": 0,
-                        "docs": re.sub("\n"," ", i)
+                        "docs": re.sub("\n"," ", i)+"LFTD"
                     }
 
                 except IndexError:
@@ -96,6 +97,10 @@ def process_data(email):
                         "is_archived": 0,
                         "docs": re.sub("\n"," ", i)
                     }
+
+
+
+
                 parsed_data.append(pax_details)
             else:
                 pass
@@ -104,7 +109,9 @@ def process_data(email):
     main_data ={
         "pax_master": pax_master,
         "pax_details": parsed_data
-    }  
+    }
+
+   
 
     return json.dumps(main_data)
 
@@ -132,5 +139,6 @@ if flowFile is not None :
     # added this two lines 
     write_cb = PyOutputStreamCallback(output)
     flowFile = session.write(flowFile, write_cb)
-          
+    
+       
     session.transfer(flowFile, ExecuteScript.REL_SUCCESS)# your code goes here
