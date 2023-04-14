@@ -38,7 +38,7 @@ class PyOutputStreamCallback(OutputStreamCallback):
 
 
 def process_data(email):
-    pregex = r'^P\/([A-Z0-9]{1,3})\/([A-Z0-9]+)\/([A-Z]{2,3})\/(\d{2}[A-Z]{3}\d{4})\/([MF])\/(\d{2}[A-Z]{3}\d{4})\/([A-Z]+)\/([A-Z]+)'
+    pregex = r'^P\/([A-Z0-9]{1,3})\/([A-Z0-9]+)\/([A-Z]{2,3})\/(\d{2,4}[A-Z]{3}\d{2,4})\/([MF])\/(\d{2,4}[A-Z]{3}\d{2,4})\/([A-Z]+)'
 
     uid = str(uuid.uuid4())
     data = re.sub(r'^\s+', '', email, flags=re.MULTILINE)
@@ -109,9 +109,7 @@ def process_data(email):
     main_data ={
         "pax_master": pax_master,
         "pax_details": parsed_data
-    }
-
-   
+    }  
 
     return json.dumps(main_data)
 
@@ -136,9 +134,9 @@ if flowFile is not None :
         body = msg.get_payload(decode=True)
 
     # flowFile = session.putAttribute(flowFile, 'msgbody', output.decode('utf-8', 'ignore')) #
-    # added this two lines 
     write_cb = PyOutputStreamCallback(output)
     flowFile = session.write(flowFile, write_cb)
     
        
     session.transfer(flowFile, ExecuteScript.REL_SUCCESS)# your code goes here
+
