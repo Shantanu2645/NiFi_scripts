@@ -43,7 +43,7 @@ def date_replacer(data):
                 data[key] = data[key].replace(match, new_match)
 
     return json.dumps(data)
-#this test
+
 flowFile = session.get()
 
 if flowFile is not None :
