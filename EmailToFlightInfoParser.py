@@ -63,8 +63,6 @@ def process_data(email):
     email_gist = '\n'.join(data[2:])
 
     cleaned_email_gist = email_gist.split('LFTD')
-    # return email_gist
-
     parsed_data = []
 
     for i in cleaned_email_gist:
