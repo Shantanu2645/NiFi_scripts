@@ -48,6 +48,16 @@ def process_data(email):
 
     matches = re.findall(pregex, data)
 
+    pax_master = {
+        "uid":uid,
+        "airlines_code": "" ,
+        "source": 0,
+        "receieved_at":1111,
+        "flight_code":"",
+        "flight_date":  "",
+        "docs": email
+        }  
+
     parsed_data = []
     for i in matches:
 
@@ -63,7 +73,13 @@ def process_data(email):
         
         parsed_data.append(pax_details)
 
-    return(json.dumps(parsed_data))
+    full_data = {
+        "pax_master" : pax_master,
+        "pax_details" : parsed_data
+
+    }
+
+    return(json.dumps(full_data))
         
 
 
